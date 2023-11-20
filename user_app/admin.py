@@ -91,7 +91,7 @@ class UserProfileAdmin(admin.ModelAdmin):
         return obj.user.email
 
     def phone_number(self, obj):
-        return obj.contact_number
+        return obj.mobile_number
 
     image_tag.short_description = 'Image'
     email.short_description = 'Email'

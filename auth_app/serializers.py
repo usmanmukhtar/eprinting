@@ -14,22 +14,26 @@ from user_app.serializers import UserProfileSerializer
 from auth_app.tasks import send_otp_registration, send_welcome_email
 from django.db.models import Q
 
-from fcm_django.models import FCMDevice
-
 
 User = get_user_model()
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    contact_number = serializers.CharField(required=False,write_only=True)
-    full_name = serializers.CharField(required=False,write_only=True)
+    mobile_number = serializers.CharField(required=False,write_only=True)
+    first_name = serializers.CharField(required=False,write_only=True)
+    last_name = serializers.CharField(required=False,write_only=True)
     password = serializers.CharField(write_only=True, required=True,validators=[password_validation.validate_password])
     device_token = serializers.CharField(write_only=True, required=False, allow_blank=True)
     device_type = serializers.CharField(write_only=True)
+    image = serializers.ImageField(required=False)
+    city = serializers.CharField(required=False)
+    state = serializers.CharField(required=False)
+    zipcode = serializers.IntegerField(required=False)
+    gender = serializers.CharField(required=False)
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'contact_number', 'full_name','device_token', 'device_type')
+        fields = ('email', 'password', 'mobile_number', 'first_name', 'last_name', 'device_token', 'device_type', 'image', 'city', 'state', 'zipcode', 'gender')
 
     def validate(self, attrs):
         if User.objects.filter(email=attrs['email'].lower()).exists():
@@ -46,30 +50,38 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(
             email=validated_data['email'],
             password=validated_data['password'],
-            full_name=validated_data.get('full_name'),
-            contact_number=validated_data.get('contact_number')
+            first_name=validated_data.get('first_name'),
+            last_name=validated_data.get('last_name'),
+            mobile_number=validated_data.get('mobile_number'),
+            image=validated_data.get('image'),
+            city=validated_data.get('city'),
+            state=validated_data.get('state'),
+            zipcode=validated_data.get('zipcode'),
+            gender=validated_data.get('gender')
         )
 
         # sending email via celery
         code = UserOtp.generate_otp(user.id)
-        send_otp_registration.delay(code, user.email)
+        #TODO: send email via celery
+        send_otp_registration(code, user.email)
 
         # TODO: move this to RegistrationOtpVerificationSerializer save's method
         # adding user device token and type in FCMDevice model to use it when sending notification
-        FCMDevice.objects.create(
-            registration_id=validated_data.get('device_token'),
-            type=validated_data.get('device_type'),
-            user_id=user.id
-        )
+        # FCMDevice.objects.create(
+        #     registration_id=validated_data.get('device_token'),
+        #     type=validated_data.get('device_type'),
+        #     user_id=user.id
+        # )
 
-        send_welcome_email.delay(validated_data.get('full_name'), user.email)
+        #TODO: send email via celery
+        send_welcome_email(validated_data.get('full_name'), user.email)
 
         return user
 
     def to_representation(self, instance):
         data = super(RegisterSerializer, self).to_representation(instance)
-        data['full_name'] = instance.userprofile.full_name
-        data['contact_number'] = str(instance.userprofile.contact_number)
+        data['full_name'] = f"{instance.first_name} {instance.last_name}"
+        data['mobile_number'] = str(instance.userprofile.mobile_number)
         return data
 
 
@@ -149,31 +161,32 @@ class LoginSerializer(serializers.Serializer):
         device_token = attrs.get('device_token')
         device_type = attrs.get('device_type')
         user_profile = user.userprofile
-        user_fcm = user.fcmdevice_set.all()
+        attrs['token'], created = Token.objects.get_or_create(user=user)
+        # user_fcm = user.fcmdevice_set.all()
 
-        if user_fcm:
-            user_fcm = user_fcm.first()
-            if device_token != user_fcm.registration_id or device_type != user_fcm.type:
-                # if device_token == '':
-                #     user_fcm.delete()
-                # else:
-                user_fcm.registration_id = device_token
-                user_fcm.type = device_type
-                user_fcm.save()
+        # if user_fcm:
+        #     user_fcm = user_fcm.first()
+        #     if device_token != user_fcm.registration_id or device_type != user_fcm.type:
+        #         # if device_token == '':
+        #         #     user_fcm.delete()
+        #         # else:
+        #         user_fcm.registration_id = device_token
+        #         user_fcm.type = device_type
+        #         user_fcm.save()
 
-                Token.objects.filter(user=user).delete()
-                attrs['token'] = Token.objects.create(user=user)
-            else:
-                attrs['token'], created = Token.objects.get_or_create(user=user)
-        else:
-            # if device_token != '':
-            FCMDevice.objects.create(
-                registration_id=device_token,
-                type=device_type,
-                user_id=user.id
-            )
-            Token.objects.filter(user=user).delete()
-            attrs['token'] = Token.objects.create(user=user)
+        #         Token.objects.filter(user=user).delete()
+        #         attrs['token'] = Token.objects.create(user=user)
+        #     else:
+        #         attrs['token'], created = Token.objects.get_or_create(user=user)
+        # else:
+        #     # if device_token != '':
+        #     FCMDevice.objects.create(
+        #         registration_id=device_token,
+        #         type=device_type,
+        #         user_id=user.id
+        #     )
+        #     Token.objects.filter(user=user).delete()
+        #     attrs['token'] = Token.objects.create(user=user)
 
         attrs['user_details'] = user_profile # this is to return details of logged in user
         return attrs
@@ -188,15 +201,9 @@ class LoginSerializer(serializers.Serializer):
 class LogoutSerializer(serializers.Serializer):
     success = serializers.BooleanField(read_only=True)
 
-
     def save(self, request, **kwargs):
+        user = request.user
         request.user.auth_token.delete()
-        fcm_device = FCMDevice.objects.filter(
-            user_id=request.user.id
-        )
-
-        fcm_device.delete()
-        
         return None
 
 
@@ -209,8 +216,6 @@ class ForgetPasswordSerializer(serializers.Serializer):
         attrs['user'] = User.get_or_none(email=attrs['email'])
         if not attrs['user']:
             raise serializers.ValidationError({"email": "User with this email does not exist."})
-        if attrs['user'].is_social_login:
-            raise serializers.ValidationError({"is_social_login": "Cannot use forget password as you registered via social login"})
         return attrs
 
     def save(self, **kwargs):

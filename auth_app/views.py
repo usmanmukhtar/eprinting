@@ -9,6 +9,54 @@ from core_app.utils import error_response, success_response
 # from auth_app.tasks import send_otp_registration
 
 
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from .forms import UserCreationForm, UserProfileForm, StoreForm
+
+def signup_view(request):
+    if request.method == 'POST':
+        user_form = UserCreationForm(request.POST)
+        user_profile_form = UserProfileForm(request.POST)
+        store_form = StoreForm(request.POST)
+
+        if user_form.is_valid() and user_profile_form.is_valid() and store_form.is_valid():
+            user = user_form.save(commit=False)   # Don't save the user instance yet
+            user.is_staff = True  # Set is_staff to True
+            user.save()  # Now save the user instance
+            user_profile = user_profile_form.save(commit=False)
+            user_profile.user = user
+            user_profile.save()
+
+            # Split the combined address
+            combined_address = store_form.cleaned_data.get('combined_address')
+            address_components = [component.strip() for component in combined_address.split(',')]
+
+            if len(address_components) == 4:
+                address, city, state, zipcode = address_components
+
+                store = store_form.save(commit=False)
+                store.address = address
+                store.city = city
+                store.state = state
+                store.zipcode = zipcode
+                store.save()
+
+            return redirect(reverse('admin:login'))
+    else:
+        user_form = UserCreationForm()
+        user_profile_form = UserProfileForm()
+        store_form = StoreForm()
+
+    context = {
+        'user_form': user_form,
+        'user_profile_form': user_profile_form,
+        'store_form': store_form
+    }
+
+    return render(request, 'signup.html', context)
+
+
+
 class RegisterViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
     serializer_class = RegisterSerializer

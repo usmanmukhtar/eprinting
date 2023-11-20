@@ -11,7 +11,6 @@ router.register(r'user_bet_paymentinfo',views.UserBetPaymentInfoViewSet, basenam
 router.register(r'report_type', views.ReportTypeViewSet, basename='report-type')
 router.register(r'report', views.ReportViewSet, basename='report')
 router.register(r'myprofile', views.MyProfileViewSet, basename='myprofile')
-router.register(r'matches_history', views.MatchHistoryViewSet, basename='matches-hostory')
 # router.register(r'videos', views.UserVideosViewSet, basename='videos')
 
 urlpatterns = router.urls

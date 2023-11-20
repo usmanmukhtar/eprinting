@@ -272,47 +272,6 @@ class MyBetsView(APIView):
             return specific_error_response(message=repr(e))
 
 
-# class LeaderboardView(APIView):
-#     def get(self, request, *args, **kwargs):
-#         try:
-#             players = GamePlayers.objects.all().distinct('player')
-#             user = request.user.userprofile
-#             user_bets = user.user_bet_by
-#
-#             bets_count = user_bets.count()
-#             bets_won = user_bets.filter(bet_status='W').count()
-#             bets_lost = user_bets.filter(bet_status='L').count()
-#
-#             bets_summary = []
-#             all_bets = user_bets.all()
-#             for each in all_bets:
-#                 bones = each.bones
-#                 placed_on_fullname = each.placed_on.full_name
-#                 bet_status = each.bet_status
-#                 game_players = each.game.gameplayers_set.all()
-#
-#                 players_info = []
-#                 for i in game_players:
-#                     player = i.player
-#                     players_info.append({'full_name':player.full_name,'image':player.image})
-#
-#                 bets_summary.append({
-#                     'bones':bones
-#                     ,'placed_on':placed_on_fullname
-#                     ,'bet_status':bet_status
-#                     ,'players_info':players_info
-#                 })
-#             data = {'bets_count':bets_count
-#                     ,'bets_won':bets_won
-#                     ,'bets_lost':bets_lost
-#                     ,'bets_summary':bets_summary}
-#
-#             return success_response_message(data=data,message='Success')
-#         except Exception as e:
-#             return specific_error_response(message=repr(e))
-#
-
-
 class MyProfileViewSet(viewsets.ViewSet):
     serializer_class = MyProfileSerializer
 
@@ -322,19 +281,3 @@ class MyProfileViewSet(viewsets.ViewSet):
         # print("user : ", user)
         serializer = self.serializer_class(user, context={'request': request})
         return success_response(serializer=serializer, message="Profile fetched successfully")
-
-
-# from game_app.serializers import MatchesHistorySerializer
-class MatchHistoryViewSet(viewsets.ViewSet):
-    serializer_class = MatchesHistorySerializer
-
-    def retrieve(self, request, pk=None):
-        user = UserProfile.objects.get(pk=pk)
-        # queryset = Game.objects.filter(gameplayers__player=pk,game_status__in=('S','E')).order_by('-id')
-        queryset = Game.objects.prefetch_related('game_winner', 'gameplayers_set','gameplayers_set__player')\
-            .filter(gameplayers__player=pk,game_status__in=('S', 'E'))\
-            .order_by('-id')
-        pagination = MetaPageNumberPagination()
-        qs = pagination.paginate_queryset(queryset, request)
-        serializer = self.serializer_class(qs, many=True, context={'owner': user})
-        return pagination.get_paginated_response(serializer.data)

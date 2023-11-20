@@ -48,7 +48,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        exclude = ['stripe_customer_id', 'created_at', 'updated_at', 'active', 'user']
+        exclude = ['created_at', 'updated_at', 'active', 'user']
 
     def validate(self, attrs):
         print("inside validate")
@@ -229,7 +229,7 @@ class MyProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        exclude = ['stripe_customer_id', 'created_at', 'updated_at', 'active']
+        exclude = ['created_at', 'updated_at', 'active']
 
     def get_is_already_homie(self, obj):
         value = False
