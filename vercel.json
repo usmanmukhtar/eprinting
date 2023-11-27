@@ -1,6 +1,6 @@
 {
     "builds": [{
-        "sec": "eprintingapp/wsgi.py",
+        "src": "eprintingapp/wsgi.py",
         "use":"@vercelÍpython",
         "config": {
             "maxLambdaSize": "15mb",
