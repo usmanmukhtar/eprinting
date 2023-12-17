@@ -48,7 +48,7 @@ class UserProfile(TimeStampModel, ActiveModel):
 
 
     def __str__(self):
-        return f'{self.full_name or str("N/A")}'
+        return f'{self.user.first_name or str("N/A")} {self.user.last_name or ""}'
 
     class Meta:
         db_table = "user_profile"

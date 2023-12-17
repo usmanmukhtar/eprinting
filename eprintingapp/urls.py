@@ -19,7 +19,6 @@ from django.contrib.auth import views as auth_views
 from auth_app.views import signup_view
 from auth_app.admin import custom_admin_site
 from django.conf.urls.static import static
-from store_app.views import OrderViewSet
 from django.conf import settings
 
 
@@ -31,7 +30,7 @@ urlpatterns = [
     path('api/user/', include('user_app.urls')),
     path('api/auth/', include('auth_app.urls')),
     path('api/stores/', include('store_app.urls')),
-    path('api/order/', OrderViewSet.as_view(), name='order'),
+    path('api/order/', include('order_app.urls')),
 ]
 
 

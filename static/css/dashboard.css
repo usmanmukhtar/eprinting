@@ -1,0 +1,113 @@
+
+.order-card {
+  color: #fff;
+}
+
+.bg-c-blue {
+  background: linear-gradient(45deg, #4099ff, #73b4ff);
+}
+
+.bg-c-green {
+  background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+}
+
+.bg-c-yellow {
+  background: linear-gradient(45deg, #FFB64D, #ffcb80);
+}
+
+.bg-c-pink {
+  background: linear-gradient(45deg, #FF5370, #ff869a);
+}
+
+
+.card {
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  border: none;
+  margin-bottom: 30px;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.card .card-block {
+  padding: 25px;
+}
+
+.order-card i {
+  font-size: 26px;
+}
+
+.f-left {
+  float: left;
+}
+
+.f-right {
+  float: right;
+}
+
+
+.login-logo > h1 > img, .login-logo {
+  height: 150px;
+  background: black;
+  padding: 0px 0px 0px 0px;
+}
+
+.login-box {
+  width: 400px;
+}
+
+
+/*body.sidebar-mini.app-users.model-userprofile.change-list.accent-primary.theme-default:nth-child(2) div.wrapper:nth-child(1) div.content-wrapper:nth-child(3) div.content div.container-fluid section.content div.row div.col-12 div.card.card-primary.card-outline div.card-body div.module.filtered div.row:nth-child(1) div.col-12 div.card:nth-child(3) div.card-body.table-responsive.p-0 table.table.table-striped thead:nth-child(1) tr:nth-child(1) > th.djn-checkbox-select-all.sorting:nth-child(1),*/
+/*body.sidebar-mini.app-blogs.model-post.change-list.accent-primary.theme-default:nth-child(2) div.wrapper:nth-child(1) div.content-wrapper:nth-child(3) div.content div.container-fluid section.content div.row div.col-12 div.card.card-primary.card-outline div.card-body div.module.filtered div.row:nth-child(1) div.col-12 div.card:nth-child(3) div.card-body.table-responsive.p-0 table.table.table-striped thead:nth-child(1) tr:nth-child(1) > th.sorting_asc:nth-child(2),*/
+/*body.sidebar-mini.app-memberships.model-eventwebhook.change-list.accent-primary.theme-default:nth-child(2) div.wrapper:nth-child(1) div.content-wrapper:nth-child(3) div.content div.container-fluid section.content div.row div.col-12 div.card.card-primary.card-outline div.card-body div.module div.row:nth-child(1) div.col-12 div.card:nth-child(3) div.card-body.table-responsive.p-0 table.table.table-striped thead:nth-child(1) tr:nth-child(1) > th.djn-checkbox-select-all.sorting_asc:nth-child(1),*/
+/*body.sidebar-mini.app-reports.model-bodyreport.change-list.accent-primary.theme-default:nth-child(2) div.wrapper:nth-child(1) div.content-wrapper:nth-child(3) div.content div.container-fluid section.content div.row div.col-12 div.card.card-primary.card-outline div.card-body div.module.filtered div.row:nth-child(1) div.col-12 div.card:nth-child(3) div.card-body.table-responsive.p-0 table.table.table-striped thead:nth-child(1) tr:nth-child(1) > th.djn-checkbox-select-all.sorting_asc:nth-child(1),*/
+/*body.sidebar-mini.app-reports.model-facialreport.change-list.accent-primary.theme-default:nth-child(2) div.wrapper:nth-child(1) div.content-wrapper:nth-child(3) div.content div.container-fluid section.content div.row div.col-12 div.card.card-primary.card-outline div.card-body div.module.filtered div.row:nth-child(1) div.col-12 div.card:nth-child(3) div.card-body.table-responsive.p-0 table.table.table-striped thead:nth-child(1) tr:nth-child(1) > th.djn-checkbox-select-all.sorting:nth-child(1),*/
+/*body.sidebar-mini.app-reports.model-bodyreport.change-list.accent-primary.theme-default:nth-child(2) div.wrapper:nth-child(1) div.content-wrapper:nth-child(3) div.content div.container-fluid section.content div.row div.col-12 div.card.card-primary.card-outline div.card-body div.module.filtered div.row:nth-child(1) div.col-12 div.card:nth-child(3) div.card-body.table-responsive.p-0 table.table.table-striped thead:nth-child(1) tr:nth-child(1) > th.djn-checkbox-select-all.sorting:nth-child(1) {*/
+/*  width: 5%;*/
+/*}*/
+/*body.sidebar-mini.app-users.model-userprofile.change-list.accent-primary.theme-default:nth-child(3) div.wrapper:nth-child(1) div.content-wrapper:nth-child(3) div.content div.container-fluid section.content div.row div.col-12 div.card.card-primary.card-outline div.card-body div.module.filtered div.row:nth-child(1) div.col-12 div.card:nth-child(3) div.card-body.table-responsive.p-0 table.table.table-striped thead:nth-child(1) tr:nth-child(1) > th.djn-checkbox-select-all.sorting_asc:nth-child(1),*/
+/*body.sidebar-mini.app-memberships.model-package.change-list.accent-primary.theme-default:nth-child(3) div.wrapper:nth-child(1) div.content-wrapper:nth-child(3) div.content div.container-fluid section.content div.row div.col-12 div.card.card-primary.card-outline div.card-body div.module.filtered div.row:nth-child(1) div.col-12 div.card:nth-child(5) div.card-body.table-responsive.p-0 table.table.table-striped thead:nth-child(1) tr:nth-child(1) > th.sorting_asc:nth-child(2){*/
+/*  width: 10%;*/
+/*}*/
+
+footer > div {
+  color: transparent;
+}
+
+/* Remove View on Site Button from User Model Screen */
+body.sidebar-mini.app-user_auth.model-user.change-form.accent-primary.theme-default:nth-child(2) div.wrapper:nth-child(1) div.content-wrapper:nth-child(3) div.content div.container-fluid section.content div.row div.col-12 form:nth-child(1) div.row:nth-child(2) div.col-12.col-lg-3:nth-child(2) div:nth-child(1) > div.object-tools {
+  display: none;
+}
+
+thead > tr:nth-child(1) > th:nth-child(2) {
+  width: 5%;
+}
+
+.nav-sidebar > li:last-child {
+  display: none;
+}
+
+th > div {
+  color: #007bff !important;
+}
+
+body.sidebar-mini.app-user_auth.model-user.change-form.accent-primary.theme-default:nth-child(3) div.wrapper:nth-child(1) div.content-wrapper:nth-child(3) div.content div.container-fluid section.content div.row div.col-12 form:nth-child(1) div.row:nth-child(2) div.col-12.col-lg-3:nth-child(2) div:nth-child(1) > div.object-tools {
+  display: none;
+}
+
+#id_form-0-token {
+  width: 100%;
+}
+
+.form-group {
+  margin-top: 1%;
+  margin-right: 1%;
+}
+.nav-header {
+  display: none;
+}
+
+.breadcrumb{
+    display:none !important;
+}

@@ -16,6 +16,7 @@ import os
 from django.utils.timezone import timedelta
 import environ
 import certifi
+from config.settings.jazzmin_settings import JAZZMIN_SETTINGS, JAZZMIN_UI_TWEAKS
 
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
@@ -42,6 +43,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'rest_framework',
     'corsheaders',
     'rest_framework.authtoken',
@@ -49,6 +51,7 @@ INSTALLED_APPS = [
     'user_app',
     'core_app',
     'store_app',
+    'order_app',
     'django_filters',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -160,3 +163,16 @@ OTP_EXPIRE_DURATION = timedelta(minutes=1)
 OTP_CODE_LENGTH = 4
 
 LOGIN_REDIRECT_URL = '/custom-admin/'
+
+REST_FRAMEWORK = {
+   'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework.authentication.TokenAuthentication',
+   ),
+   'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser'
+   ),
+}
+
+
+JAZZMIN_SETTINGS = JAZZMIN_SETTINGS
+JAZZMIN_UI_TWEAKS = JAZZMIN_UI_TWEAKS

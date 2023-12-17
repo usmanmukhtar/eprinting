@@ -1,12 +1,5 @@
 from rest_framework import serializers
-from .models import Store, Service, Size, Order
-
-
-class OrderSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Order
-        fields = ('__all__')
+from .models import Store, Service, Size
 
 class StoreSerializer(serializers.ModelSerializer):
 

@@ -4,12 +4,10 @@ from rest_framework.viewsets import ModelViewSet
 from .models import (
     Store,
     Service,
-    Order
 )
 from .serializers import (
     StoreSerializer,
-    ServiceSerializer,
-    OrderSerializer
+    ServiceSerializer
 )
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -20,6 +18,7 @@ import math
 from core_app.pagination import MetaPageNumberPagination
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
 
 class ServiceViewSet(APIResponseGenericViewMixin, ModelViewSet):
@@ -33,24 +32,11 @@ class ServiceViewSet(APIResponseGenericViewMixin, ModelViewSet):
         return success_response_message(serializer.data, message="Retrieved data successfully.")
 
 
-class OrderViewSet(generics.ListCreateAPIView):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
-    # permission_classes = (IsAuthenticated,)
-    # http_method_names = ['POST', ]
-
-    # def create(self, request, *args, **kwargs):
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_create(serializer)
-
-    #     return success_response_message(serializer.data, message="Created order successfully.")
-
-
 
 class StoreViewSet(APIResponseGenericViewMixin, ModelViewSet):
     queryset = Store.objects.all()
     serializer_class = StoreSerializer
+    permission_classes = (IsAuthenticated,)
 
     def haversine_distance(self, lat1, lon1, lat2, lon2):
         R = 6371.0  # Earth radius in kilometers

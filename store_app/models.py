@@ -10,16 +10,13 @@ class Store(TimeStampModel):
     longitude = models.FloatField()
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='store_user')
 
     class Meta:
         db_table = 'store'
 
     def __str__(self):
         return f'{self.name or str("N/A")}'
-
-class OrientationType(models.IntegerChoices):
-    portrait = 1, "Portrait"
-    landscape = 2, "Landscape"
 
 
 class Service(models.Model):
@@ -65,21 +62,3 @@ class StoreRating(TimeStampModel):
 
     class Meta:
         db_table = 'store_rating'
-
-class Order(TimeStampModel):
-
-    ORIENTATION_TYPE = OrientationType
-    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='order_store')
-    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='order_service')
-    size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name='order_size')
-    doc_type = models.CharField(max_length=255)
-    quantity = models.PositiveIntegerField(default=1)
-    orientation = models.PositiveIntegerField(choices=ORIENTATION_TYPE.choices, default=OrientationType.portrait)
-    notes = models.TextField(blank=True)
-    pickup_time = models.DateTimeField(null=True, blank=True)
-
-    class Meta:
-        db_table = 'order'
-
-    def __str__(self):
-        return f'{self.name or str("N/A")}'
