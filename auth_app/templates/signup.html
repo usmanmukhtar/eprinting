@@ -1,9 +1,76 @@
-<form method="post">
-    {% csrf_token %}
+<!DOCTYPE html>
+<html lang="en">
 
-    {{ user_form.as_p }}
-    {{ user_profile_form.as_p }}
-    {{ store_form.as_p }}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+            /* Adjust as per your requirement */
+        }
 
-    <button type="submit">Sign up</button>
-</form>
+        .form-container form {
+            width: 100%;
+            /* or max-width if you want to limit the form width */
+            max-width: 500px;
+            /* Adjust as per your requirement */
+        }
+
+        .logo {
+            width: 100px;
+            /* Adjust as per your logo size */
+            height: auto;
+            margin-bottom: 20px;
+            /* Space between logo and form */
+        }
+        body {
+            background-color: #f7f7f7; /* Light grey background */
+        }
+        .card {
+            margin-top: 20px; /* Spacing from the top */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow for card */
+        }
+        .btn-primary {
+            background-color: #004085; /* Bootstrap primary color */
+        }
+    </style>
+</head>
+
+<body>
+    {% load static %}
+    {% load crispy_forms_tags %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="text-center mb-4">
+                    <img src="{% static 'logo/logo.png' %}" alt="Logo" class="mb-3" style="width: 120px;">
+                    <!-- Adjust the path and size accordingly -->
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" action="{% url 'signup' %}">
+                            {% csrf_token %}
+                            {{ user_form|crispy }}
+                            {{ user_profile_form|crispy }}
+                            {{ store_form|crispy }}
+                            <input type="submit" class="btn btn-primary btn-block"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

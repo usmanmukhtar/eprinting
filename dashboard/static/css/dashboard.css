@@ -49,11 +49,8 @@
 
 .login-logo > h1 > img, .login-logo {
   height: 150px;
+  background: black;
   padding: 0px 0px 0px 0px;
-}
-
-.login-logo > h1 > picture > img {
-  width: 150px;
 }
 
 .login-box {
@@ -109,8 +106,4 @@ body.sidebar-mini.app-user_auth.model-user.change-form.accent-primary.theme-defa
 }
 .nav-header {
   display: none;
-}
-
-.breadcrumb{
-    display:none !important;
 }

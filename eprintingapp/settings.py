@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'core_app',
     'store_app',
     'order_app',
+    "dashboard",
     'django_filters',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -59,6 +60,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'crispy_bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "core_app.middleware.RedirectMiddleware",
 ]
 
 ROOT_URLCONF = 'eprintingapp.urls'
@@ -162,8 +166,6 @@ OTP_EXPIRE_DURATION = timedelta(minutes=1)
 # OTP_CODE_LENGTH = env.int("OTP_CODE_LENGTH", default=5)
 OTP_CODE_LENGTH = 4
 
-LOGIN_REDIRECT_URL = '/custom-admin/'
-
 REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework.authentication.TokenAuthentication',
@@ -176,3 +178,6 @@ REST_FRAMEWORK = {
 
 JAZZMIN_SETTINGS = JAZZMIN_SETTINGS
 JAZZMIN_UI_TWEAKS = JAZZMIN_UI_TWEAKS
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+ADMIN_URL = "admin/"

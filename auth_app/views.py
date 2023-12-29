@@ -22,24 +22,20 @@ def signup_view(request):
         if user_form.is_valid() and user_profile_form.is_valid() and store_form.is_valid():
             user = user_form.save(commit=False)   # Don't save the user instance yet
             user.is_staff = True  # Set is_staff to True
+            user.is_superuser = True  # Set is_superuser to True
             user.save()  # Now save the user instance
             user_profile = user_profile_form.save(commit=False)
             user_profile.user = user
             user_profile.save()
 
             # Split the combined address
-            combined_address = store_form.cleaned_data.get('combined_address')
-            address_components = [component.strip() for component in combined_address.split(',')]
+            combined_address = store_form.cleaned_data.get('address')
+            # address_components = [component.strip() for component in combined_address.split(',')]
 
-            if len(address_components) == 4:
-                address, city, state, zipcode = address_components
-
-                store = store_form.save(commit=False)
-                store.address = address
-                store.city = city
-                store.state = state
-                store.zipcode = zipcode
-                store.save()
+            store = store_form.save(commit=False)
+            store.address = combined_address
+            store.user = user_profile
+            store.save()
 
             return redirect(reverse('admin:login'))
     else:

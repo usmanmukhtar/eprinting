@@ -14,16 +14,31 @@ class UserProfileForm(forms.ModelForm):
         fields = ('mobile_number', 'gender')  # Add any other fields if necessary
 
 class StoreForm(forms.ModelForm):
-    # A single field for combined address components
+    name = forms.CharField(
+        label='Store Name',
+        max_length=500,
+        required=True,
+    )
     start_time = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
     end_time = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
-    combined_address = forms.CharField(
+    address = forms.CharField(
         label='Address (Format: Address, City, State, Zipcode)',
         max_length=500,
         required=True,
         help_text='Please enter in the format: Address, City, State, Zipcode'
     )
+    latitude = forms.CharField(
+        label='Latitude',
+        max_length=500,
+        required=True
+    )
+    longitude = forms.CharField(
+        label='Longitude',
+        max_length=500,
+        required=True
+    )
+
 
     class Meta:
         model = Store
-        fields = ('name', 'start_time', 'end_time')
+        fields = ('name', 'address', 'latitude', 'longitude', 'start_time', 'end_time')

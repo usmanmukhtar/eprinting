@@ -17,14 +17,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from auth_app.views import signup_view
-from auth_app.admin import custom_admin_site
+# from auth_app.admin import custom_admin_site
 from django.conf.urls.static import static
 from django.conf import settings
+from dashboard.views import LoginView, admin_dashboard, admin_logout
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('custom-admin/', custom_admin_site.urls),
+    path('admin_dashboard/', admin_dashboard, name='admin_dashboard'),
+    path(f"{settings.ADMIN_URL}login/", LoginView.as_view(), name='account_login'),
+    path(f"{settings.ADMIN_URL}logout/", admin_logout, name='admin_logout'),
     path('signup/', signup_view, name='signup'),
     path(f"admin/login/", auth_views.LoginView.as_view(template_name='admin/custom_login.html'), name='admin_login'),
     path('api/user/', include('user_app.urls')),

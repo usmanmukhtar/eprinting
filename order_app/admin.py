@@ -11,7 +11,7 @@ class OrderAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         # if request.user.is_superuser:
         #     return qs
-        return qs.filter(store=request.user.userprofile.store_user.first())
+        return qs.filter(store=request.user.userprofile.store_user)
 
     list_display = (
         "user",

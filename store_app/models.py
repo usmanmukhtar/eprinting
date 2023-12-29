@@ -10,7 +10,7 @@ class Store(TimeStampModel):
     longitude = models.FloatField()
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='store_user')
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='store_user')
 
     class Meta:
         db_table = 'store'

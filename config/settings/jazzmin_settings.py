@@ -41,25 +41,25 @@ JAZZMIN_SETTINGS = {
     ############
 
     # Links to put along the top menu
-    "topmenu_links": [
+    # "topmenu_links": [
 
-        # Url that gets reversed (Permissions can be added)
+    #     # Url that gets reversed (Permissions can be added)
 
-        # {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
-        # {"name": "Dashboard", "url": "admin_dashboard", },
-        # {"name": "Packages", "url": "admin:memberships_package_changelist", },
-        {"model": "order_app.Order" },
-        {"model": "store_app.Service" },
+    #     # {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+    #     # {"name": "Dashboard", "url": "admin_dashboard", },
+    #     # {"name": "Packages", "url": "admin:memberships_package_changelist", },
+    #     {"model": "order_app.Order" },
+    #     {"model": "store_app.Service" },
 
-        # external url that opens in a new window (Permissions can be added)
-        # {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
+    #     # external url that opens in a new window (Permissions can be added)
+    #     # {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
 
-        # model admin to link to (Permissions checked against model)
-        # {"model": "user_auth.User"},
+    #     # model admin to link to (Permissions checked against model)
+    #     # {"model": "user_auth.User"},
 
-        # App with dropdown menu to all its models pages (Permissions checked against models)
-        # {"app": "books"},
-    ],
+    #     # App with dropdown menu to all its models pages (Permissions checked against models)
+    #     # {"app": "books"},
+    # ],
 
     #############
     # User Menu #
@@ -92,7 +92,7 @@ JAZZMIN_SETTINGS = {
     #############
 
     # Whether to display the side menu
-    "show_sidebar": False,
+    "show_sidebar": True,
 
     # Whether to aut expand the menu
     "navigation_expanded": True,
