@@ -12,6 +12,9 @@ class OrientationType(models.IntegerChoices):
 
 class Order(TimeStampModel):
 
+    def order_dir(instance, filename):
+        return "backend/orders/%s-%s" % (instance.id, filename)
+
     ORIENTATION_TYPE = OrientationType
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='order_store')
     service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='order_service')
@@ -21,6 +24,7 @@ class Order(TimeStampModel):
     orientation = models.PositiveIntegerField(choices=ORIENTATION_TYPE.choices, default=OrientationType.portrait)
     notes = models.TextField(blank=True)
     pickup_time = models.DateTimeField(null=True, blank=True)
+    document = models.FileField(upload_to=order_dir)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='order_user')
 
     class Meta:

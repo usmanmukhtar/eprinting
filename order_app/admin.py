@@ -36,6 +36,8 @@ class OrderAdmin(admin.ModelAdmin):
         "id",
     )
 
+    def has_add_permission(self, request, obj=None):
+        return False
 
     def pickup_time_time(self, obj):
         # Format the time.

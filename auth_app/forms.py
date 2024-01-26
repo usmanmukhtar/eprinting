@@ -9,9 +9,14 @@ class UserCreationForm(UserCreationForm):
         fields = ('email', 'first_name', 'last_name')
 
 class UserProfileForm(forms.ModelForm):
+    image = forms.ImageField(
+        label='Store Image',
+        max_length=500,
+        required=True,
+    )
     class Meta:
         model = UserProfile
-        fields = ('mobile_number', 'gender')  # Add any other fields if necessary
+        fields = ('mobile_number', 'image', 'gender')  # Add any other fields if necessary
 
 class StoreForm(forms.ModelForm):
     name = forms.CharField(

@@ -15,9 +15,12 @@ class UserProfile(TimeStampModel, ActiveModel):
         ('F','Female'),
     )
 
+    def user_profile_dir(instance, filename):
+        return "backend/user_profile/%s" % (filename)
+
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,null=True)
     mobile_number = models.CharField(max_length=15,null=True, blank=True)
-    image = models.URLField(max_length=250, null=True, blank=True)
+    image = models.ImageField(upload_to=user_profile_dir, max_length=500, null=True, blank=True)
     allow_notifications = models.BooleanField(default=True)
     city = models.CharField(max_length=500, null=True, blank=True)
     state = models.CharField(max_length=500, null=True, blank=True)
@@ -48,7 +51,7 @@ class UserProfile(TimeStampModel, ActiveModel):
 
 
     def __str__(self):
-        return f'{self.user.first_name or str("N/A")} {self.user.last_name or ""}'
+        return f'{self.user.first_name if self.user else str("N/A")} {self.user.last_name if self.user else ""}'
 
     class Meta:
         db_table = "user_profile"

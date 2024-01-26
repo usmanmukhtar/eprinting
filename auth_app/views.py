@@ -4,6 +4,8 @@ from auth_app.serializers import LoginSerializer, LogoutSerializer, RegisterSeri
     SocialLoginSerializer, RegistrationOtpVerificationSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import viewsets, status
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
 
 from core_app.utils import error_response, success_response
 # from auth_app.tasks import send_otp_registration
@@ -16,7 +18,7 @@ from .forms import UserCreationForm, UserProfileForm, StoreForm
 def signup_view(request):
     if request.method == 'POST':
         user_form = UserCreationForm(request.POST)
-        user_profile_form = UserProfileForm(request.POST)
+        user_profile_form = UserProfileForm(request.POST, request.FILES)
         store_form = StoreForm(request.POST)
 
         if user_form.is_valid() and user_profile_form.is_valid() and store_form.is_valid():
@@ -37,7 +39,12 @@ def signup_view(request):
             store.user = user_profile
             store.save()
 
-            return redirect(reverse('admin:login'))
+            # Log out any currently logged-in user before redirecting to the login page
+            logout(request)
+
+            # Construct the login URL with the 'next' query parameter
+            login_url = reverse('admin:login') + '?next=/admin_dashboard/'
+            return HttpResponseRedirect(login_url)
     else:
         user_form = UserCreationForm()
         user_profile_form = UserProfileForm()

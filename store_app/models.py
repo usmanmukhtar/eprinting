@@ -47,18 +47,18 @@ class Size(models.Model):
     def __str__(self):
         return f'{self.name or str("N/A")}'
 
-
 class FavoriteStore(TimeStampModel):
-    favorited_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    favorited_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='favorite_favorited_by')
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='favorite_store')
 
     class Meta:
         db_table = 'favorite_store'
 
 class StoreRating(TimeStampModel):
-    liked_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    liked_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='store_rating_liked_by')
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='store_rating_store')
     rate = models.DecimalField(max_digits=3, decimal_places=2, validators = [MinValueValidator(0.0), MaxValueValidator(5.0)])
+    review = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = 'store_rating'
