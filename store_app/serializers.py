@@ -40,6 +40,7 @@ class StoreSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Store
+        fields = ('__all__')
 
 class StoreDetailSerializer(serializers.ModelSerializer):
     store_image = serializers.ImageField(source='user.image')
@@ -83,6 +84,7 @@ class StoreDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Store
+        fields = ('__all__')
 
 class SizeSerializer(serializers.ModelSerializer):
     class Meta:
