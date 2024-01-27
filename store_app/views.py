@@ -46,7 +46,7 @@ class StoreViewSet(APIResponseGenericViewMixin, ModelViewSet):
 
     def retrieve(self, request, pk=None):
         store = get_object_or_404(Store, id=pk)
-        serializer = StoreDetailSerializer(store).data
+        serializer = serializer = StoreDetailSerializer(store, context={'request': request}).data
         return Response(serializer, status=status.HTTP_200_OK)
 
     def haversine_distance(self, lat1, lon1, lat2, lon2):
@@ -129,7 +129,7 @@ class StoreViewSet(APIResponseGenericViewMixin, ModelViewSet):
         queryset = Service.objects.filter(store=pk)
         paginator = MetaPageNumberPagination()
         page = paginator.paginate_queryset(queryset, request)
-        serialiser = ServiceSerializer(page, many=True)
+        serialiser = ServiceSerializer(page, context={'request': request}, many=True)
         return paginator.get_paginated_response(serialiser.data)
 
     @action(detail=True, methods=['get'], url_path='reviews')

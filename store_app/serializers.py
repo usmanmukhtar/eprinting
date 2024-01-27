@@ -43,12 +43,19 @@ class StoreSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class StoreDetailSerializer(serializers.ModelSerializer):
-    store_image = serializers.ImageField(source='user.image')
+    store_image = serializers.SerializerMethodField()
     start_time = serializers.SerializerMethodField(read_only=True)
     end_time = serializers.SerializerMethodField(read_only=True)
     is_online = serializers.SerializerMethodField(read_only=True)
     services = serializers.SerializerMethodField(read_only=True)
     total_ratings = serializers.SerializerMethodField(read_only=True)
+
+    def get_store_image(self, store):
+        request = self.context.get('request')
+        image_path = store.user.image.url if store.user.image else None
+        if image_path and request is not None:
+            return request.build_absolute_uri(image_path)
+        return image_path
 
     def get_start_time(self, store):
         return store.start_time.time()
@@ -74,9 +81,10 @@ class StoreDetailSerializer(serializers.ModelSerializer):
             return start_time <= now <= end_time
 
     def get_services(self, store):
+        request = self.context.get('request')
         services = Service.objects.filter(store=store)[:6]
 
-        return ServiceSerializer(services, many=True).data
+        return ServiceSerializer(services, context={'request': request}, many=True).data
 
     def get_total_ratings(self, store):
         ratings = StoreRating.objects.filter(store_id=store.id).aggregate(ratings=Coalesce(Avg('rate'), 0, output_field=DecimalField()))
@@ -92,7 +100,16 @@ class SizeSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class ServiceSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, service):
+        request = self.context.get('request')
+        image_path = service.image.url if service.image else None
+        if image_path and request is not None:
+            return request.build_absolute_uri(image_path)
+        return image_path
     sizes = SizeSerializer(many=True)
+
     class Meta:
         model = Service
         fields = ('__all__')

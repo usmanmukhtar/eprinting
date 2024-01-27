@@ -39,5 +39,5 @@ class OrderViewSet(APIResponseGenericViewMixin, ModelViewSet):
         queryset = self.queryset.filter(user_id=user.id)
         pagination = MetaPageNumberPagination()
         qs = pagination.paginate_queryset(queryset, request)
-        serializer = self.serializer_class(qs, many=True)
+        serializer = OrderSerializer(qs, context={'request': request}, many=True)
         return pagination.get_paginated_response(serializer.data)
