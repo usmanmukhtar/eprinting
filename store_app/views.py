@@ -167,11 +167,16 @@ class ReviewViewSet(APIResponseGenericViewMixin, ModelViewSet):
 
         return success_response_message(serializer.data, message="Created rating successfully.")
 
-    def update(self, request, *args, **kwargs):
-        request_data = request.data
-        request_data['liked_by'] = request.user.userprofile.pk
-        serializer = self.get_serializer(data=request_data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
 
-        return success_response_message(serializer.data, message="Updated rating successfully.")
+    def update(self, request, pk, format=None):
+        try:
+            review = get_object_or_404(StoreRating, pk=pk)
+            request_data = request.data
+            request_data['liked_by'] = request.user.userprofile.pk
+            serializer = self.get_serializer(review, data=request_data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            serializer_data = serializer.data
+            return success_response_message(serializer_data, message="Updated rating successfully.")
+        except Exception as e:
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)

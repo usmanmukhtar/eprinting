@@ -24,7 +24,7 @@ class MetaPageNumberPagination(PageNumberPagination):
                 'current_page': int(self.request.GET.get('page', MetaPageNumberPagination.page)),
                 'next_page_url': self.get_next_link(),
                 'previous_page_url': self.get_previous_link(),
-                'page_size': int(self.request.GET.get('per-page', self.page_size)),
+                'page_size': int(self.request.GET.get('per_page', self.page_size)),
                 'last_page': self.page.paginator.num_pages,
             },
             'data': data
