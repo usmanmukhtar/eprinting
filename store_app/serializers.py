@@ -40,7 +40,6 @@ class StoreSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Store
-        exclude = ('ratings',)
 
 class StoreDetailSerializer(serializers.ModelSerializer):
     store_image = serializers.ImageField(source='user.image')
@@ -84,7 +83,6 @@ class StoreDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Store
-        exclude = ('ratings', )
 
 class SizeSerializer(serializers.ModelSerializer):
     class Meta:
