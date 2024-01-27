@@ -35,7 +35,7 @@ class StoreSerializer(serializers.ModelSerializer):
             return start_time <= now <= end_time
 
     def get_total_ratings(self, store):
-        ratings = store.ratings.all().aggregate(ratings=Coalesce(Avg('rate'), 0, output_field=DecimalField()))
+        ratings = StoreRating.objects.filter(store_id=store.id).aggregate(ratings=Coalesce(Avg('rate'), 0, output_field=DecimalField()))
         return ratings.get('ratings')
 
     class Meta:
@@ -79,7 +79,7 @@ class StoreDetailSerializer(serializers.ModelSerializer):
         return ServiceSerializer(services, many=True).data
 
     def get_total_ratings(self, store):
-        ratings = store.ratings.all().aggregate(ratings=Coalesce(Avg('rate'), 0, output_field=DecimalField()))
+        ratings = StoreRating.objects.filter(store_id=store.id).aggregate(ratings=Coalesce(Avg('rate'), 0, output_field=DecimalField()))
         return ratings.get('ratings')
 
     class Meta:
