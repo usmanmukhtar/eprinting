@@ -28,11 +28,13 @@ from django_filters.rest_framework import DjangoFilterBackend
 from user_app.filters import HomiesNameFilter
 from rest_framework.authtoken.models import Token
 from auth_app.tasks import send_account_deletion_email
+from rest_framework.permissions import IsAuthenticated
 
 
 class UserProfileViewSet(APIResponseGenericViewMixin, ModelViewSet):
     queryset = UserProfile.objects.filter(active=True).order_by('pk')
     serializer_class = UserProfileSerializer
+    permission_classes = (IsAuthenticated,)
     # main methods: Post and Get
     # me methods: Put, Delete, Get
 
