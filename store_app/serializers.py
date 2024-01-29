@@ -3,6 +3,8 @@ from .models import Store, Service, Size, StoreRating
 from django.utils import timezone
 from django.db.models.functions import Coalesce
 from django.db.models import DecimalField, Avg
+from user_app.serializers import UserProfileSerializer
+from user_app.models import UserProfile
 
 class StoreSerializer(serializers.ModelSerializer):
     store_image = serializers.ImageField(source='user.image')
@@ -115,6 +117,12 @@ class ServiceSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class StoreRatingSerializer(serializers.ModelSerializer):
+    liked_by_detail = serializers.SerializerMethodField()
     class Meta:
         model = StoreRating
         fields = ('__all__')
+    
+    def get_liked_by_detail(self, obj):
+        # Serialize the UserProfile instance associated with 'liked_by'
+        serializer = UserProfileSerializer(obj.liked_by)
+        return serializer.data

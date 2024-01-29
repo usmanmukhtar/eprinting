@@ -24,6 +24,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter
+from user_app.serializers import UserProfileSerializer
 
 class ServiceViewSet(APIResponseGenericViewMixin, ModelViewSet):
     queryset = Service.objects.all()
@@ -159,7 +160,7 @@ class ReviewViewSet(APIResponseGenericViewMixin, ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
-        request_data = request.data
+        request_data = request.data.copy()
         request_data['liked_by'] = request.user.userprofile.pk
         serializer = self.get_serializer(data=request_data)
         serializer.is_valid(raise_exception=True)
