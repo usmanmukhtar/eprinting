@@ -1,11 +1,14 @@
 from django.contrib import admin
 from order_app.models import Order
 from django.utils.timezone import localtime
+from .forms import OrderForm
 
 # Register your models here.
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+
+    form = OrderForm    
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -24,9 +27,22 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     # list_filter = (
-    #     'pickup_time',
+    #     ('order_type'),
     # )
-
+    
+    readonly_fields=(
+        'store',
+        'service',
+        'size',
+        'doc_type',
+        'quantity',
+        'orientation',
+        'notes',
+        'pickup_time',
+        'document',
+        'user',
+    )
+    
     search_fields = (
         'user',
         'service'
@@ -39,6 +55,9 @@ class OrderAdmin(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
         return False
 
+    def has_delete_permission(self, request, obj=None) -> bool:
+        return False
+    
     def pickup_time_time(self, obj):
         # Format the time.
         return localtime(obj.pickup_time).strftime('%I:%M %p') if obj.pickup_time else ''

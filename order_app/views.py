@@ -16,6 +16,8 @@ import math
 from core_app.pagination import MetaPageNumberPagination
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
+from rest_framework.filters import SearchFilter
+from  django_filters.rest_framework import DjangoFilterBackend
 
 # Create your views here.
 
@@ -23,6 +25,8 @@ class OrderViewSet(APIResponseGenericViewMixin, ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = (IsAuthenticated,)
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields =['order_type']
     # http_method_names = ['POST', ]
 
     def create(self, request, *args, **kwargs):
@@ -36,7 +40,7 @@ class OrderViewSet(APIResponseGenericViewMixin, ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         user = request.user
-        queryset = self.queryset.filter(user_id=user.id)
+        queryset = self.filter_queryset(self.queryset.filter(user_id=user.id))
         pagination = MetaPageNumberPagination()
         qs = pagination.paginate_queryset(queryset, request)
         serializer = OrderSerializer(qs, context={'request': request}, many=True)

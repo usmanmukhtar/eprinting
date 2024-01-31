@@ -10,7 +10,8 @@ from django.shortcuts import redirect
 from django.urls import reverse
 
 from order_app.models import Order
-from store_app.models import Service
+from store_app.models import Service, StoreRating
+
 from django.conf import settings
 
 
@@ -18,15 +19,12 @@ from django.conf import settings
 @staff_member_required
 def admin_dashboard(request):
     order_admin_url = reverse("admin:order_app_order_changelist")
+    service_admin_url = reverse("admin:store_app_service_changelist")
+    review_admin_url = reverse("admin:store_app_storerating_changelist")
+
     total_orders = Order.objects.filter(store_id=request.user.userprofile.store_user.id).count()
-    # new_signups = UserProfile.objects.filter(date_joined__date=datetime.date.today()).count()
-    # new_purchases = PaymentHistory.objects.filter(created_at__date=datetime.date.today()).count()
-    # new_scans = FacialReport.objects.filter(created_at__date=datetime.date.today()).count() + BodyReport.objects.filter(created_at__date=datetime.date.today()).count()
-    # total_users = UserProfile.global_objects.count()
-    # active_users = UserProfile.objects.count()
-    # deleted_users = UserProfile.deleted_objects.count()
-    # active_paid_plans = UserScanSubscription.objects.filter(status=UserScanSubscription.STATUS_CHOICES.active, package__type=1).count()
-    # active_free_plans = UserScanSubscription.objects.filter(status=UserScanSubscription.STATUS_CHOICES.active, package__type=0).count()
+    total_services = Service.objects.filter(store_id=request.user.userprofile.store_user.id).count()
+    total_reviews = StoreRating.objects.filter(store_id=request.user.userprofile.store_user.id).count()
 
     context = {
         'available_apps': admin.site.get_app_list(request),
@@ -37,9 +35,9 @@ def admin_dashboard(request):
             # {"title": "Deleted Users", "value": deleted_users, "icon": "fa fa-users"},
 
             # {"title": "New Purchases", "value": new_purchases, "icon": "fa fa-shopping-cart"},
-            # {"title": "New Scans", "value": new_scans, "icon": "fa fa-barcode"},
+            {"title": "Services", "value": total_services, "icon": "fa fa-barcode", "route": service_admin_url},
             # {"title": "Active Paid Plans", "value": active_paid_plans, "icon": "fa fa-dollar-sign"},
-            # {"title": "Active Free Plans", "value": active_free_plans, "icon": "fa fa-user"},
+            {"title": "Store Ratings", "value": total_reviews, "icon": "fa fa-user", 'route': review_admin_url},
             {"title": "Total Orders", "value": total_orders, "icon": "fa fa-shopping-cart", "route": order_admin_url},
         ],
     }

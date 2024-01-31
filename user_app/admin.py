@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.http.request import HttpRequest
 from .models import UserProfile
 from django.utils.html import format_html
 from django.http import HttpResponse, HttpResponseRedirect
@@ -79,6 +80,18 @@ class UserProfileAdmin(admin.ModelAdmin):
         "id",
     )
 
+    readonly_fields = (
+        'active',
+        'user',
+        'mobile_number',
+        'image',
+        'allow_notifications',
+        'city',
+        'state',
+        'zipcode',
+        'gender'
+    )
+
     date_hierarchy = 'created_at'
 
 
@@ -100,4 +113,10 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_per_page = 10
 
     def has_add_permission(self, request) -> bool:
+        return False
+    
+    def has_delete_permission(self, request, obj=None) -> bool:
+        return False
+    
+    def has_change_permission(self, request, obj=None) -> bool:
         return False
