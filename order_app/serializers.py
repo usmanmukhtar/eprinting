@@ -8,8 +8,8 @@ class OrderSerializer(serializers.ModelSerializer):
     total_price = serializers.SerializerMethodField()
     # pickup_time = serializers.SerializerMethodField()
     # orientation_display = CharField(source="get_orientation_display")
-    order_type_display = CharField(source="get_order_type_display")
-    store = StoreSerializer()
+    order_type_display = CharField(source="get_order_type_display", read_only=True)
+    store_detail = StoreSerializer(source="store", read_only=True)
 
     def get_total_price(self, order):
         return order.service.price + order.size.price

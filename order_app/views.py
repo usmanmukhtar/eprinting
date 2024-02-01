@@ -30,7 +30,7 @@ class OrderViewSet(APIResponseGenericViewMixin, ModelViewSet):
     # http_method_names = ['POST', ]
 
     def create(self, request, *args, **kwargs):
-        request_data = request.data
+        request_data = request.data.copy()
         request_data['user'] = request.user.pk
         serializer = self.get_serializer(data=request_data)
         serializer.is_valid(raise_exception=True)
