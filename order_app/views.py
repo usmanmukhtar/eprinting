@@ -22,7 +22,7 @@ from  django_filters.rest_framework import DjangoFilterBackend
 # Create your views here.
 
 class OrderViewSet(APIResponseGenericViewMixin, ModelViewSet):
-    queryset = Order.objects.all()
+    queryset = Order.objects.all().order_by("-created_at")
     serializer_class = OrderSerializer
     permission_classes = (IsAuthenticated,)
     filter_backends = [DjangoFilterBackend, SearchFilter]
