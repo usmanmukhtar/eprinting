@@ -12,6 +12,7 @@ from auth_app.models import UserOtp
 from user_app.models import UserProfile
 from user_app.serializers import UserProfileSerializer
 from auth_app.tasks import send_otp_registration, send_welcome_email
+from auth_app.models import UserOtp, User
 from django.db.models import Q
 
 
@@ -74,7 +75,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         # )
 
         #TODO: send email via celery
-        send_welcome_email(validated_data.get('full_name'), user.email)
+        User.send_welcome_note(user.email, validated_data.get('first_name'))
 
         return user
 
