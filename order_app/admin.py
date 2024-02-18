@@ -8,7 +8,7 @@ from .forms import OrderForm
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
 
-    form = OrderForm    
+    form = OrderForm
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -19,7 +19,8 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = (
         "user",
         "service",
-        "pickup_time_time"
+        "pickup_time_time",
+        "total_price"
     )
 
     list_display_links = (
@@ -29,7 +30,7 @@ class OrderAdmin(admin.ModelAdmin):
     # list_filter = (
     #     ('order_type'),
     # )
-    
+
     readonly_fields=(
         'store',
         'service',
@@ -41,8 +42,9 @@ class OrderAdmin(admin.ModelAdmin):
         'pickup_time',
         'document',
         'user',
+        "total_price"
     )
-    
+
     search_fields = (
         'user',
         'service'
@@ -52,12 +54,17 @@ class OrderAdmin(admin.ModelAdmin):
         "id",
     )
 
+    def total_price(self, order):
+        return order.service.price + order.size.price
+
+    total_price.short_description = "Price (Rs)"
+
     def has_add_permission(self, request, obj=None):
         return False
 
     def has_delete_permission(self, request, obj=None) -> bool:
         return False
-    
+
     def pickup_time_time(self, obj):
         # Format the time.
         return localtime(obj.pickup_time).strftime('%I:%M %p') if obj.pickup_time else ''
