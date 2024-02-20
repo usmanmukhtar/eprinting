@@ -38,7 +38,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
     is_social_login = serializers.BooleanField(read_only=True)
     payment_method_name = serializers.CharField(required=False)
     payment_method_url = serializers.CharField(required=False)
-
     # payment_details = serializers.SerializerMethodField(required=False,read_only=True)
     # payment_details = UserBetPaymentInfoSerializer(many=True,allow_null=True,source="bet_payments_info")
 
@@ -48,8 +47,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        exclude = ['created_at', 'updated_at', 'active', 'user']
+        exclude = ['created_at', 'updated_at', 'active']
 
+    def to_representation(self, instance):
+        data = super(UserProfileSerializer, self).to_representation(instance)
+        data['full_name'] = f"{instance.user.first_name} {instance.user.last_name}"
+        return data
+    
     def validate(self, attrs):
         print("inside validate")
         print(attrs)
