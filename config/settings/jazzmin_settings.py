@@ -1,13 +1,13 @@
 # JAZZMIN SETTINGS
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "ePrinting Admin",
+    "site_title": "E-Printing Admin",
 
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "ePrinting",
+    "site_header": "E-Printing",
 
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_brand": "ePrinting",
+    "site_brand": "E-Printing",
 
     # Logo to use for your site, must be present in static files, used for brand on top left
     "site_logo": "logo/logo.png",
@@ -25,10 +25,10 @@ JAZZMIN_SETTINGS = {
     "site_icon": None,
 
     # Welcome text on the login screen
-    "welcome_sign": "Welcome to the ePrinting Admin",
+    "welcome_sign": "Welcome to the E-Printing Admin",
 
     # Copyright on the footer
-    "copyright": "ePrinting 2022",
+    "copyright": "E-Printing 2022",
 
     # The model admin to search from the search bar, search bar omitted if excluded
     # "search_model": "users.UserProfile",
