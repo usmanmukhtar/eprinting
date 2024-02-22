@@ -3,6 +3,7 @@ from core_app.models import TimeStampModel
 from user_app.models import UserProfile
 from django.core.validators import MaxValueValidator, MinValueValidator
 from store_app.models import Store, Service, Size
+from django.utils.html import format_html
 
 # Create your models here.
 
@@ -42,3 +43,11 @@ class Order(TimeStampModel):
 
     def __str__(self):
         return f'{self.service.name or str("N/A")}'
+    
+    # def file_link(self):
+    #     if self.document:
+    #         return format_html("<a href='%s'>download</a>" % (self.document.url,))
+    #     else:
+    #         return "No attachment"
+    
+    # file_link.allow_tags = True

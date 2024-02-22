@@ -20,7 +20,8 @@ class OrderAdmin(admin.ModelAdmin):
         "user",
         "service",
         "pickup_time_time",
-        "total_price"
+        "total_price",
+        # "file_link"
     )
 
     list_display_links = (
@@ -41,6 +42,7 @@ class OrderAdmin(admin.ModelAdmin):
         'notes',
         'pickup_time',
         'document',
+        # 'file_link',
         'user',
         "total_price"
     )
