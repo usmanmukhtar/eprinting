@@ -331,7 +331,7 @@ class SocialLoginSerializer(serializers.Serializer):
         if user is None:
             if attrs.get('provider') == 'AP':
                 try:
-                    decoded_token = jwt.decode(attrs.get('apple_token'), options={"verify_signature": False})
+                    decoded_token = jwt.decode(attrs.get('apple_token'), options={"verify_signature": True})
                     email = decoded_token['email']
                 except Exception as e:
                     raise serializers.ValidationError({'platform_token': 'Invalid token'})
