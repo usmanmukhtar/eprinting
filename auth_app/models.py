@@ -9,8 +9,7 @@ from django.core.mail import EmailMultiAlternatives
 
 from auth_app.manager import UserManager
 from user_app.models import UserProfile
-
-import random
+import secrets
 
 
 class User(AbstractUser, PermissionsMixin):
@@ -106,9 +105,9 @@ class UserOtp(models.Model):
     @staticmethod
     def generate_otp(user__id):
         code_ranges = {
-            4: f"{random.randint(0000, 9999):04}",
-            5: f"{random.randint(00000, 99999):05}",
-            6: f"{random.randint(000000, 999999):06}",
+            4: f"{secrets.SystemRandom().randint(0000, 9999):04}",
+            5: f"{secrets.SystemRandom().randint(00000, 99999):05}",
+            6: f"{secrets.SystemRandom().randint(000000, 999999):06}",
         }
         code_length = settings.OTP_CODE_LENGTH
 
